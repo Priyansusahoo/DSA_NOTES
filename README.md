@@ -1,7 +1,7 @@
 # DSA_NOTES
 
 ## 3 Sum
-
+  Brute-Force Approach
   ```java
     class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
@@ -32,6 +32,52 @@
         }
     }
   ```
+  Optimal Approach
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+
+        /**
+         * Time-Complexity : O(N^2)
+         * 
+         * Space-Complexity : O(N)
+         */
+
+        if (nums == null || nums.length < 3) { // edge case if Array length is less than 3
+            return new ArrayList<>();
+        }
+
+        final int n = nums.length;
+
+        Set<List<Integer>> result = new HashSet<>();
+
+        Arrays.sort(nums);
+
+        for (int i = 0; i < n; i++) { // 1st element is held here
+            int left = i + 1; // 2nd element held here intitially
+
+            int right = n - 1; // 3rd element held here initially
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    List<Integer> list = new ArrayList<>(Arrays.asList(nums[i], nums[left], nums[right]));
+                    // no need to sort the list as the array was already sorted.
+                    result.add(list);
+                    left ++;
+                    right --;
+                } else if (sum < 0) { // cause sorted in ascending order
+                    left ++; // we need a higher value so we increment left by 1
+                } else { // when sum is greater than 0, we need to reduce the sum by using a element with less value.
+                    right --; // so we decrement the right by 1
+                }
+            }
+        }
+        return new ArrayList(result);
+    }
+}
+```
 ## Longest Substring Without Repeating Characters
 
   ```java
